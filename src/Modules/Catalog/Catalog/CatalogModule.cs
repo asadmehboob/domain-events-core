@@ -1,8 +1,11 @@
 ﻿using Catalog.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using Shared;
 using System.Reflection;
 
 namespace Catalog;
@@ -13,9 +16,14 @@ public static class CatalogModule
     {
         // Add services to the container.
         string? connectionString = configuration.GetConnectionString("CatalogConnectionString");
-        services.AddDbContext<CatalogDbContext>(config =>
-          config.UseSqlServer(connectionString));
 
+
+        services.AddScoped<IDomainEventDispatcher, MediatRDomainEventDispatcher>();
+        
+        services.AddDbContext<CatalogDbContext>((sp,options) => {
+            options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
+            options.UseSqlServer(connectionString);
+        } );
         services.AddMediatR(config => config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
         services.AddScoped<ICatalogRepository, EfCatalogRepository>();
         services.AddScoped<ICatalogService, CatalogService>();

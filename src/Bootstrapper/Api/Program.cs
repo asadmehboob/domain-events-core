@@ -2,6 +2,7 @@
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddControllers();
 builder.Services
     .AddCatalogModule(builder.Configuration)
     .AddBasketModule(builder.Configuration)
@@ -15,4 +16,5 @@ app
     .UseBasketModule()
     .UseOrderingModule();
 
+app.MapControllers();
 app.Run();

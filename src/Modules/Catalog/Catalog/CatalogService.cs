@@ -13,8 +13,9 @@ internal class CatalogService : ICatalogService
 
     public async Task AddCatalogAsync(Catalog CatalogDto)
     {
-        var Catalog = new Catalog(CatalogDto.Id, CatalogDto.Title, CatalogDto.Author, CatalogDto.Price);
-        await _CatalogRepo.AddAsync(Catalog);
+        //var Catalog = new Catalog(CatalogDto.Id, CatalogDto.Title, CatalogDto.Author, CatalogDto.Price);
+        await _CatalogRepo.AddAsync(CatalogDto);
+        await _CatalogRepo.SaveChangesAsync();
     }
 
 
