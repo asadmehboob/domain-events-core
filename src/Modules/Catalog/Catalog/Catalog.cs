@@ -44,7 +44,7 @@ namespace Catalog
         {
 
             Price = price;
-            RegisterDomainEvent(new CatalogPriceChangedEvent(this));
+            RegisterDomainEvent(new CatalogPriceChangedEvent(Guid.NewGuid()));
         }
 
 

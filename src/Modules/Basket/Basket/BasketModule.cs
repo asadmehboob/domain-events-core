@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace Basket;
 public static class BasketModule
@@ -13,7 +14,7 @@ public static class BasketModule
         //    .AddApplicationServices()
         //    .AddInfrastructureServices(configuration)
         //    .AddApiServices(configuration);
-
+        services.AddMediatR(config => config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
         return services;
     }
 
